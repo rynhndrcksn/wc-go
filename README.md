@@ -1,6 +1,6 @@
 # Coding Challenges - Write Your Own `wc` Tool
 
-> https://codinchallenges.fyi/challenges/challenge-wc
+> https://codingchallenges.fyi/challenges/challenge-wc
 
 This challenge is to build your own version of the Unix command line tool wc!
 
