@@ -14,12 +14,29 @@ func TestCounterOutputsCorrectNumberOfBytes(t *testing.T) {
 	if err != nil {
 		t.Fatal("Ran into an error running `wc -c test.txt`:", err.Error())
 	}
-	got := counter(bufio.ScanBytes)
+	got := counter("test.txt", bufio.ScanBytes)
 	want, err := strconv.Atoi(strings.Split(string(output[:]), " ")[0])
 	if err != nil {
 		t.Fatal("Ran into an error parsing the numbers from `wc`'s output:", err.Error())
 	}
 	if got != want {
-		t.Errorf("got %q, wanted %q", got, want)
+		t.Errorf("got %d, wanted %d", got, want)
+	}
+}
+
+func TestCounterOutputsCorrectNumberOfLines(t *testing.T) {
+	cmd := exec.Command("wc", "-l", "test.txt")
+	output, err := cmd.Output()
+	if err != nil {
+		t.Fatal("Ran into an error running `wc -l test.txt`:", err.Error())
+	}
+	got := counter("test.txt", bufio.ScanLines)
+	want, err := strconv.Atoi(strings.Split(string(output[:]), " ")[0])
+	want++ // wc -l returns the amount of \n characters, not actual lines, so it's short by 1.
+	if err != nil {
+		t.Fatal("Ran into an error parsing the numbers from `wc`'s output:", err.Error())
+	}
+	if got != want {
+		t.Errorf("got %d, wanted %d", got, want)
 	}
 }
