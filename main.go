@@ -10,10 +10,11 @@ import (
 
 func main() {
 	// Set up available CLI flags.
-	countByte := flag.Bool("c", false, "Count bytes in file")
+	countBytes := flag.Bool("c", false, "Count bytes in file")
+	countLines := flag.Bool("l", false, "Count lines in file")
 	flag.Parse()
 
-	if !*countByte {
+	if !*countBytes && !*countLines {
 		log.Fatalln("No valid flag options set")
 	}
 
@@ -23,20 +24,25 @@ func main() {
 		log.Fatalln("Filename can't be empty")
 	}
 
-	byteCount := counter(bufio.ScanBytes)
-	fmt.Println("Byte count =", byteCount)
+	// Cycle through any possible flags and print their results.
+	if *countBytes {
+		fmt.Printf("Byte count = %d\n", counter(filename, bufio.ScanBytes))
+	}
+	if *countLines {
+		fmt.Printf("Byte count = %d\n", counter(filename, bufio.ScanLines))
+	}
 }
 
 // counter will return the count of however many bufio.SplitFunc there are in the file.
-func counter(split bufio.SplitFunc) int {
+func counter(filename string, split bufio.SplitFunc) int {
 	// Try to open the test file, if we can't, bail.
-	file, err := os.Open("test.txt")
+	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
 	// Create a new scanner that will scan over the file.
-	s := bufio.NewScanner(file)
+	s := *bufio.NewScanner(file)
 	s.Split(split)
 	count := 0
 	for s.Scan() {
