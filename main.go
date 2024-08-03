@@ -12,9 +12,10 @@ func main() {
 	// Set up available CLI flags.
 	countBytes := flag.Bool("c", false, "Count bytes in file")
 	countLines := flag.Bool("l", false, "Count lines in file")
+	countWords := flag.Bool("w", false, "Count words in file")
 	flag.Parse()
 
-	if !*countBytes && !*countLines {
+	if !*countBytes && !*countLines && !*countWords {
 		log.Fatalln("No valid flag options set")
 	}
 
@@ -29,7 +30,10 @@ func main() {
 		fmt.Printf("Byte count = %d\n", counter(filename, bufio.ScanBytes))
 	}
 	if *countLines {
-		fmt.Printf("Byte count = %d\n", counter(filename, bufio.ScanLines))
+		fmt.Printf("Line count = %d\n", counter(filename, bufio.ScanLines))
+	}
+	if *countWords {
+		fmt.Printf("Word count = %d\n", counter(filename, bufio.ScanWords))
 	}
 }
 
