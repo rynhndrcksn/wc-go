@@ -13,9 +13,10 @@ func main() {
 	countBytes := flag.Bool("c", false, "Count bytes in file")
 	countLines := flag.Bool("l", false, "Count lines in file")
 	countWords := flag.Bool("w", false, "Count words in file")
+	countChars := flag.Bool("m", false, "Count chars in file")
 	flag.Parse()
 
-	if !*countBytes && !*countLines && !*countWords {
+	if !*countBytes && !*countLines && !*countWords && !*countChars {
 		log.Fatalln("No valid flag options set")
 	}
 
@@ -34,6 +35,9 @@ func main() {
 	}
 	if *countWords {
 		fmt.Printf("Word count = %d\n", counter(filename, bufio.ScanWords))
+	}
+	if *countChars {
+		fmt.Printf("Char count = %d\n", counter(filename, bufio.ScanWords))
 	}
 }
 
