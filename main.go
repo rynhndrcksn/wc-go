@@ -16,8 +16,9 @@ func main() {
 	countChars := flag.Bool("m", false, "Count chars in file")
 	flag.Parse()
 
+	// If no flags are used, default to counting the bytes, lines, and words.
 	if !*countBytes && !*countLines && !*countWords && !*countChars {
-		log.Fatalln("No valid flag options set")
+		*countBytes, *countLines, *countWords = true, true, true
 	}
 
 	// The first argument should be a filename.
